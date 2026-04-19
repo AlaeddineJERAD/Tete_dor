@@ -56,7 +56,6 @@ function initMap(geojson) {
 
     L.control.layers(baseMaps, null, { collapsed: false }).addTo(map);
 
-    // 🔥 CLUSTERS
     const clusters = L.markerClusterGroup();
 
     geojson.features.forEach((feature, index) => {
@@ -66,7 +65,6 @@ function initMap(geojson) {
         const lng = coords[0];
         const lat = coords[1];
 
-        // ✅ NUMÉROTATION PROPRE
         const number = index + 1;
 
         const icon = L.divIcon({
