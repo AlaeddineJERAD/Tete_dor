@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>My visit to Tete d'or park</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Tete_dor.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+</head>
+<body>
+    <header>
+        <h1>My visit to Tete d'or park</h1>
+        <p>Ma visite au parc de tete d'or à Lyon, avec des photos géolocalisées. Enjoy !</p>
+    </header>
+
+    <div id="map"></div>
+
+    <div id="photoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Photo & details</h3>
+            <div id="photoContainer"></div>
+        </div>
+    </div>
+
+    <script src="Tete_dor.js"></script>
+</body>
+</html>
