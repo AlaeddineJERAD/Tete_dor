@@ -56,17 +56,27 @@ function initMap(geojson) {
 
     L.control.layers(baseMaps, null, { collapsed: false }).addTo(map);
 
-    // 🔥 CLUSTERS DANS initMap
+    // 🔥 CLUSTERS
     const clusters = L.markerClusterGroup();
 
-    geojson.features.forEach(feature => {
+    geojson.features.forEach((feature, index) => {
         const props = feature.properties;
         const coords = feature.geometry.coordinates;
 
         const lng = coords[0];
         const lat = coords[1];
 
-        const marker = L.marker([lat, lng])
+        // ✅ NUMÉROTATION PROPRE
+        const number = index + 1;
+
+        const icon = L.divIcon({
+            className: 'custom-marker',
+            html: `<div class="map-number">${number}</div>`,
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        const marker = L.marker([lat, lng], { icon })
             .on('click', () => showPhotoWithInfo(props));
 
         clusters.addLayer(marker);
@@ -81,7 +91,7 @@ function showPhotoWithInfo(props) {
     container.innerHTML = '';
 
     const img = document.createElement('img');
-    img.src = `photos/${props.Name}`;  // ← dossier "photos", pas "images"
+    img.src = `photos/${props.Name}`;
     img.alt = props.Name;
     img.style.maxWidth = '100%';
     img.style.maxHeight = '500px';
@@ -94,7 +104,7 @@ function showPhotoWithInfo(props) {
     const infoPanel = document.createElement('div');
     infoPanel.className = 'info-panel';
 
-    const infoHtml = `
+    infoPanel.innerHTML = `
         <p><strong>File:</strong> ${props.Name || 'Inconnu'}</p>
         <p><strong>Date:</strong> ${props.Date || 'N/A'}</p>
         <p><strong>Time:</strong> ${props.Time || 'N/A'}</p>
@@ -104,7 +114,6 @@ function showPhotoWithInfo(props) {
         <p><strong>Camera:</strong> ${props['Cam. Maker'] || 'Inconnu'} ${props['Cam. Model'] || ''}</p>
     `;
 
-    infoPanel.innerHTML = infoHtml;
     container.appendChild(infoPanel);
 
     modal.style.display = 'block';
