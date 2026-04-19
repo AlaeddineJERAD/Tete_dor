@@ -14,11 +14,6 @@ function initMap(geojson) {
         { maxZoom: 19 }
     );
 
-    const dark = L.tileLayer(
-        'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
-        { maxZoom: 20 }
-    );
-
     const googleStreets = L.tileLayer(
         'http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',
         { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'] }
@@ -50,12 +45,11 @@ function initMap(geojson) {
         maxZoom: 22,
         zoomSnap: 0.1,
         zoomDelta: 0.5,
-        layers: [googleSat] // 🔥 fond par défaut (change ici si tu veux)
+        layers: [esriSat] // 🔥 fond par défaut (change ici si tu veux)
     });
 
     const baseMaps = {
         "🌍 OSM": osm,
-        "🌙 Dark": dark,
         "🗺️ Google Streets": googleStreets,
         "🛰️ Google Satellite": googleSat,
         "🛰️ Google Hybrid": googleHybrid,
