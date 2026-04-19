@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('tete_dor.geojson')  // ← CORRECTION : fichier en minuscule
+    fetch('tete_dor.geojson')
         .then(res => res.json())
         .then(data => {
             initMap(data);
@@ -9,29 +9,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function initMap(geojson) {
 
-    const osm = L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        { maxZoom: 19 }
-    );
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 });
 
     const googleStreets = L.tileLayer(
         'http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',
-        { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'] }
+        { maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3'] }
     );
 
     const googleHybrid = L.tileLayer(
         'http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}',
-        { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'] }
+        { maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3'] }
     );
 
     const googleSat = L.tileLayer(
         'http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',
-        { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'] }
+        { maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3'] }
     );
 
     const googleTerrain = L.tileLayer(
         'http://{s}.google.com/vt?lyrs=p&x={x}&y={y}&z={z}',
-        { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'] }
+        { maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3'] }
     );
 
     const esriSat = L.tileLayer(
@@ -45,7 +42,7 @@ function initMap(geojson) {
         maxZoom: 22,
         zoomSnap: 0.1,
         zoomDelta: 0.5,
-        layers: [esriSat] // 🔥 fond par défaut (change ici si tu veux)
+        layers: [googleSat]
     });
 
     const baseMaps = {
@@ -56,16 +53,18 @@ function initMap(geojson) {
         "⛰️ Google Terrain": googleTerrain,
         "🛰️ Esri Satellite": esriSat
     };
+
     L.control.layers(baseMaps, null, { collapsed: false }).addTo(map);
-}
+
+    // 🔥 CLUSTERS DANS initMap
     const clusters = L.markerClusterGroup();
 
     geojson.features.forEach(feature => {
         const props = feature.properties;
         const coords = feature.geometry.coordinates;
 
-        const lng = coords[0];  // ✅ longitude
-        const lat = coords[1];  // ✅ latitude
+        const lng = coords[0];
+        const lat = coords[1];
 
         const marker = L.marker([lat, lng])
             .on('click', () => showPhotoWithInfo(props));
