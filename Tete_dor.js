@@ -8,12 +8,24 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function initMap(geojson) {
-    const center = [45.7758, 4.8506];
-    const map = L.map('map').setView(center, 14);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+    
+    const esriSat = L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+    );
+    
+    const map = L.map('map', {
+        center: [45.7758, 4.8506],
+        zoom: 14,
+        maxZoom: 22,
+        layers: [esriSat] // fond par défaut
+    });
+    
+    L.control.layers({
+        "OSM": osm,
+        "Satellite": esriSat
     }).addTo(map);
+    
 
     const clusters = L.markerClusterGroup();
 
