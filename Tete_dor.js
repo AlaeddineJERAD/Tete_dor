@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function initMap(geojson) {
-    const center = [45.7758, 4.8506];  // Lyon, Tête d'Or
+    const center = [45.7758, 4.8506];
     const map = L.map('map').setView(center, 14);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
     const clusters = L.markerClusterGroup();
@@ -20,13 +20,12 @@ function initMap(geojson) {
     geojson.features.forEach(feature => {
         const props = feature.properties;
         const coords = feature.geometry.coordinates;
-        const lng = coords;
-        const lat = coords;
+
+        const lng = coords[0];  // ✅ longitude
+        const lat = coords[1];  // ✅ latitude
 
         const marker = L.marker([lat, lng])
-            .on('click', function () {
-                showPhotoWithInfo(props);
-            });
+            .on('click', () => showPhotoWithInfo(props));
 
         clusters.addLayer(marker);
     });
